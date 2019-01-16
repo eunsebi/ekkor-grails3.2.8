@@ -1,4 +1,4 @@
-package ekkor
+package xyz.ekkor
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

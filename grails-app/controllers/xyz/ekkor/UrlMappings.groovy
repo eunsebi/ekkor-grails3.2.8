@@ -1,4 +1,4 @@
-package ekkor
+package xyz.ekkor
 
 class UrlMappings {
 
