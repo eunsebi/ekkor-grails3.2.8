@@ -1,7 +1,10 @@
 package xyz.ekkor
 
+import grails.gorm.DetachedCriteria
+import groovy.transform.ToString
 import org.apache.commons.lang.builder.HashCodeBuilder
 
+@ToString(cache = true, includeNames = true, includePackage = false)
 class UserRole implements Serializable {
 
     private static final long serialVersionUID = 1
@@ -26,17 +29,26 @@ class UserRole implements Serializable {
     }
 
     static UserRole get(long userId, long roleId) {
-        UserRole.where {
+        /*UserRole.where {
             user == User.load(userId) &&
                     role == Role.load(roleId)
-        }.get()
+        }.get()*/
+        criteriaFor(userId, roleId).count()
     }
 
     static boolean exists(long userId, long roleId) {
+        /*UserRole.where {
+            user == User.load(userId) &&
+                    role == Role.load(roleId)
+        }.count() > 0*/
+        criteriaFor(userId, roleId).count()
+    }
+
+    private static DetachedCriteria criteriaFor(long userId, long roleId) {
         UserRole.where {
             user == User.load(userId) &&
                     role == Role.load(roleId)
-        }.count() > 0
+        }
     }
 
     static UserRole create(User user, Role role, boolean flush = false) {

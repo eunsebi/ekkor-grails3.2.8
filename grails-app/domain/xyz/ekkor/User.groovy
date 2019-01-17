@@ -1,8 +1,14 @@
 package xyz.ekkor
 
 import grails.util.Environment
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
-class User {
+@EqualsAndHashCode(includes = 'username')
+@ToString(includes = 'username', includeNames = true, includePackage = false)
+class User implements Serializable {
+
+    private static final long  serialVersionUID = 1
 
     transient springSecurityService
 
@@ -38,7 +44,7 @@ class User {
         username(blank: false, unique: true, size: 4..15, matches: /[a-z0-9]{4,15}/, validator: {
             if(disAllowUsernameFilter(it)) return ['default.invalid.disallow.message']
         })
-        password blank: false, minSize: 4, matches: /^(?=.*[0-9])(?=.*[a-zA-Z]).*$/
+        password blank: false, password: true, minSize: 4, matches: /^(?=.*[0-9])(?=.*[a-zA-Z]).*$/
         person unique: true
         avatar unique: true
         enabled bindable: true
